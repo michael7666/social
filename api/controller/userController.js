@@ -58,7 +58,7 @@ module.exports.getUser = async(req, res) => {
 module.exports.getFriends = async(req, res) =>{
     try {
         const user = await User.findById(req.params.userId);
-        const friends = await Promise.all(user.followings.map(friendsId =>{
+        const friends = await Promise.all(user?.followings.map(friendsId =>{
             return User.findById(friendsId);
         }))
         let friendList = [];
@@ -71,6 +71,7 @@ module.exports.getFriends = async(req, res) =>{
         res.status(500).json(err);
     }
 }
+
 
 //follow user
 module.exports.followUser = async(req, res) =>{

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {LoginCall} from "../../apiCalls";
 import { AuthContext } from '../../context/AuthContext';
 import {CircularProgress} from "@material-ui/core";
+import { Link } from 'react-router-dom';
 
  function Login() {
      const email = useRef();
@@ -33,7 +34,10 @@ import {CircularProgress} from "@material-ui/core";
                         <button className="loginButton " type="submit" disabled={isfetching}>{isfetching? <CircularProgress style={{color: "white"}} 
                         size="20px" /> : "Login"}</button>
                         <span className="loginForgot">Forgot Password</span>
-                        <button className="loginRegisterButton" type="submit"> {isfetching? <CircularProgress style={{color: "white"}} size="20px" /> : "Create a New Account"}</button>
+                        <Link to="/register">
+                        <button className="loginRegisterButton" type="submit">
+                             {isfetching? <CircularProgress style={{color: "white"}} size="20px" /> 
+                             : "Create a New Account"}</button></Link>
                     </form>
                 </div>
             </div>

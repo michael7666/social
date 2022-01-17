@@ -16,7 +16,6 @@ import {Add} from "@material-ui/icons"
      const getFriends = async() => {
          try {
              const friendList = await axios.get("/users/friends/"+ user._id);
-             console.log(user._id)
              setFriends(friendList.data);
          } catch (err) {
             console.log(err); 
@@ -28,7 +27,7 @@ import {Add} from "@material-ui/icons"
      const HomeRightBar = () => {
          return(
              <>
-             {user.username !== currentUser.username && (
+             {user?.username !== currentUser.username && (
                 
                  <button className="rightbarFollowButton">
                   Follow<Add/>
@@ -41,7 +40,7 @@ import {Add} from "@material-ui/icons"
                 <img src={`${PF}/IMG-20160829-WA0031.jpg`} alt="" className="rightbarAd" />
                 <h4 className="rightbarTitle">Online Friends</h4>
                 <ul className="rightbarFriendsList">
-                   {user.map(u => (
+                   {user?.map(u => (
                        <Online key={u.id} user={u}/>
                    ))}
                 

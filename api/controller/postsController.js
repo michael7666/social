@@ -11,7 +11,10 @@ module.exports.createPost =async (req, res) => {
       const savedPost = await newPost.save();
       res.status(200).json(savedPost);
   } catch (error) {
-      res.status(500).json(error)
+      console.log(error);
+      res.status(500).json({
+          message: "unable to post"
+      })
   }
 }
 //update post

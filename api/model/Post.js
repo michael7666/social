@@ -16,9 +16,10 @@ const PostSchame = new mongoose.Schema({
      type: Array,
      default: []
    },
-   img: {
+   files: {
        type: String,
-       required: true
+       require: true
+       
    }
 },
 {timestamps: true}

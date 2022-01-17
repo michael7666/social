@@ -3,6 +3,7 @@ import {motion} from "framer-motion";
 import { useRef } from "react";
 import axios from "axios";
 import { useHistory } from "react-router";
+import {Link} from "react-router-dom"
 
  function Register() {
     const username = useRef();
@@ -49,7 +50,10 @@ import { useHistory } from "react-router";
                         <input placeholder="password" type="password" required ref={password} className="loginInput" />
                         <input placeholder="password Again" type="password" required ref={passwordAgain} className="loginInput" />
                         <button className="loginButton" type="submit">Sign Up</button>
-                        <button className="loginRegisterButton">Login into Your Account</button>
+                        <Link to="/login" className="loginRegisterButton"> 
+                        Login into Your Account
+                        </Link>
+                        {/* <button className="loginRegisterButton">Login into Your Account</button> */}
                     </form>
                 </div>
             </div>
@@ -131,6 +135,7 @@ justify-content: center;
   font-weight: 500;
   padding-left: 30px;
   align-self: center;
+  text-decoration: none;
 }
 `
 

@@ -1,53 +1,73 @@
 import {PermMedia, Label, Room, EmojiEmotions} from "@material-ui/icons"
 import axios from "axios";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { motion } from "framer-motion";
 import { useContext, useRef, useState } from "react";
 import styled from "styled-components";
-import { AuthContext } from "../../context/AuthContext";
+// import { UploadCall } from "../../apiCalls";
+import { AuthContext} from "../../context/AuthContext";
+// import { UploadContext } from "../../context/UploadContext";
+// import {storage} from "../../firebase";
+// import {storage} from "../../firebase"
+// import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+// import app from "../../firebase";
+import {storage} from "../../firebase"
+// import { useHistory } from 'react-router';
 
  function Share() {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const {user} = useContext(AuthContext);
     const desc = useRef();
-    const [file, setFile] = useState('');
-    const [errorMgs, setErrorMgs] = useState('');
-    const submitHandler = async (e) =>{
-        console.log("rannnnnnnnnnnnn");
+    const [files, setFile] = useState('');
+    const [progress, setProgress] = useState();
+    // const dispatch = useContext(UploadContext)
+    // const [errorMgs, setErrorMgs] = useState('');
+    // const history = useHistory()
+
+
+    const upload = async ()=>{
+        if(!files) return;
+
+        const storageRef = ref(storage, `/file/${files.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, files);
+
+        uploadTask.on("state_changed", snapshot =>{
+            const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+            setProgress(progress);
+        },
+        (err)=>{console.log(err)}, ()=>{
+            getDownloadURL(uploadTask.snapshot.ref).then(url=>{
+                console.log(url);
+                setFile(url);
+                // const res =  axios.post("/upload/add", url);
+                // return res.data;
+
+            })
+        }
+        )
+        
+    }
+
+    const submitHandler = async  (e) =>{
         e.preventDefault();
         const newPost = {
-            userId: user._id,
-            desc: desc.current.value
+            userId: user?._id,
+            desc: desc.current.value,
+            files
         }
-        
+        upload(files);
         try{
-         if(file){
-              
-                const data = new FormData();
-                const fileName = file.name;
-                data.append("file", file);
-                data.append("name", fileName);
-                newPost.img = fileName;
-                await axios.post(`${PF}upload`, data, {
-                    
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                    
-                    
-                },
-
-                );
-            }
-
-             
-        }catch(err) {
-          err.response &&  setErrorMgs(err.response.data);
-        }
-        try{
-            await  axios.post("/post", newPost);
+        const res =  await axios.post("/post/add", newPost);
+         return res.data;
+      
         }catch(err){
-
+          console.log(err);
         }
+        setFile('');
+    }
+
+    const reloadPage = ()=>{
+        window.location.reload();
     }
     return (
         <SharedContainer>
@@ -58,15 +78,17 @@ import { AuthContext } from "../../context/AuthContext";
                    <input placeholder={ "what's in your mind " + user.username + "?"} 
                    className="shareInput" ref={desc} />
                </div>
+               
                <hr className="shareHr" />
-               <form className="shareBottom"   onSubmit={submitHandler}>
+               <form className="shareBottom" encType="multipart/form-data"   onSubmit={submitHandler}>
                    <div className="shareOptions">
                        <label htmlFor="file" className="shareOption">
                            <PermMedia htmlColor="tomato" className="shareIcon"/>
                            <span className="shareOptionText">Photo or Video</span>
-                           <input style={{display: "none"}} type="file" id="file" 
-                            accept="image/*" onChange={(e) =>setFile(e.target.files[0])} />
+                           <input style={{display: "none"}} type="file" id="file" name="img"
+                            accept="images/*" onChange={(e) =>setFile(e.target.files[0])} />
                        </label>
+                       <p>{progress}</p>
                        <div className="shareOption">
                            <Label htmlColor="blue" className="shareIcon"/>
                            <span className="shareOptionText">Tags</span>
@@ -79,7 +101,7 @@ import { AuthContext } from "../../context/AuthContext";
                            <EmojiEmotions htmlColor="gold" className="shareIcon"/>
                            <span className="shareOptionText">Feelings</span>
                        </div>
-                       <button className="shareButton" type="submit">Share</button>
+                       <button className="shareButton" type="submit" onClick={reloadPage}>Share</button>
                    </div>
                </form>
            </div>
