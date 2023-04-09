@@ -8,6 +8,7 @@ export const LoginCall = async (userCre, dispatch) =>{
         type: "LOGIN_START"
     });
 
+    
     try {
         const res = await axios.post("/auth/login", userCre);
         dispatch({type: "LOGIN_SUCCESS", payload: res.data});
@@ -18,7 +19,7 @@ export const LoginCall = async (userCre, dispatch) =>{
 }
 
 export const UploadCall = async(file, dispatch)=>{
-  dispatch(UploadStart())
+  dispatch(UploadStart());
    try {
       const res = await axios.post("/post/add", file) 
       dispatch(UploadSuccess(res.data));

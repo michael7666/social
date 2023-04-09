@@ -18,14 +18,15 @@ import {storage} from "../../firebase"
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const {user} = useContext(AuthContext);
     const desc = useRef();
-    const [files, setFile] = useState('');
+    const [files, setFile] = useState(null);
     const [progress, setProgress] = useState();
+    const [input, setInput] = useState({})
     // const dispatch = useContext(UploadContext)
     // const [errorMgs, setErrorMgs] = useState('');
     // const history = useHistory()
 
 
-    const upload = async ()=>{
+    const upload = async (item)=>{
         if(!files) return;
 
         const storageRef = ref(storage, `/file/${files.name}`);
@@ -38,7 +39,7 @@ import {storage} from "../../firebase"
         (err)=>{console.log(err)}, ()=>{
             getDownloadURL(uploadTask.snapshot.ref).then(url=>{
                 console.log(url);
-                setFile(url);
+                setFile({...input, desc: desc, userId: user._id,  url});
                 // const res =  axios.post("/upload/add", url);
                 // return res.data;
 
@@ -48,14 +49,13 @@ import {storage} from "../../firebase"
         
     }
 
-    const submitHandler = async  (e) =>{
+    const submitHandler = async(e) =>{
         e.preventDefault();
         const newPost = {
             userId: user?._id,
-            desc: desc.current.value,
-            files
+            desc: desc.current.value, 
         }
-        upload(files);
+        upload();
         try{
         const res =  await axios.post("/post/add", newPost);
          return res.data;
@@ -63,30 +63,30 @@ import {storage} from "../../firebase"
         }catch(err){
           console.log(err);
         }
-        setFile('');
+        setInput('');
     }
 
-    const reloadPage = ()=>{
-        window.location.reload();
-    }
+    // const reloadPage = ()=>{
+    //     window.location.reload();
+    // }
     return (
         <SharedContainer>
            <div className="shareWrapper">
                <div className="shareTop">
-                   <img src={user.profilePicture ? PF+user.profilePicture : PF+"/person/noAverta.png" }
+                   <img src={user.profilePicture ? user.profilePicture : PF+"/person/noAverta.png" }
                     alt="" className="shareImg" />
                    <input placeholder={ "what's in your mind " + user.username + "?"} 
                    className="shareInput" ref={desc} />
                </div>
                
                <hr className="shareHr" />
-               <form className="shareBottom" encType="multipart/form-data"   onSubmit={submitHandler}>
+               <form className="shareBottom"  onSubmit={submitHandler}>
                    <div className="shareOptions">
-                       <label htmlFor="file" className="shareOption">
+                       <label  className="shareOption">
                            <PermMedia htmlColor="tomato" className="shareIcon"/>
                            <span className="shareOptionText">Photo or Video</span>
-                           <input style={{display: "none"}} type="file" id="file" name="img"
-                            accept="images/*" onChange={(e) =>setFile(e.target.files[0])} />
+                           <input style={{display: "none"}} type="file" id="img" name="img"
+                             onChange={(e) =>setFile(e.target.files[0])} />
                        </label>
                        <p>{progress}</p>
                        <div className="shareOption">
@@ -101,7 +101,7 @@ import {storage} from "../../firebase"
                            <EmojiEmotions htmlColor="gold" className="shareIcon"/>
                            <span className="shareOptionText">Feelings</span>
                        </div>
-                       <button className="shareButton" type="submit" onClick={reloadPage}>Share</button>
+                       <button className="shareButton" type="submit">Share</button>
                    </div>
                </form>
            </div>

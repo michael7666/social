@@ -15,11 +15,12 @@ const dotenv = require("dotenv");
 const usersRoute = require("./router/users");
 const authRoute = require("./router/auth")
 const postRoute = require("./router/posts");
-const uploadRoute = require("./router/upload");
+// const uploadRoute = require("./router/upload");
 
 
 
 dotenv.config();
+
 
 mongoose.connect(process.env.MONGODB_URLS, {useNewUrlParser: true, useUnifiedTopology: true,  useCreateIndex: true}, () => {
     console.log("connected to mongodb");
@@ -96,8 +97,10 @@ app.use(cors(corsOptions));
 app.use("/api/users", usersRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/post", postRoute);
-app.use("/api/upload", uploadRoute);
+// app.use("/api/upload", uploadRoute);
 
-app.listen(8800, () =>{
+const PORT = process.env.PORT || 8800;
+
+app.listen(PORT, () =>{
     console.log("Backend server is  running ")
 });

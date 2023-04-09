@@ -15,7 +15,7 @@ import {Add} from "@material-ui/icons"
     useEffect(() => {
      const getFriends = async() => {
          try {
-             const friendList = await axios.get("/users/friends/"+ user._id);
+             const friendList = await axios.get(`/friends/${user?._id}`);
              setFriends(friendList.data);
          } catch (err) {
             console.log(err); 
@@ -73,7 +73,7 @@ import {Add} from "@material-ui/icons"
                  {friends.map(friend =>(
                      <Link to={"/profile/"+friend.username} style={{textDecoration: "none"}}>
                      <div className="rightbarFollowing">
-                     <img src={friend.profilePicture ? PF+friend.profilePicture : PF+"/person/noAverta.png"} alt="" className="rightbarFollowingImg" />
+                     <img src={friend.profilePicture ? friend.profilePicture : PF+"/person/noAverta.png"} alt="" className="rightbarFollowingImg" />
                      <span className="rightbarFollowingName">{friend.username}</span>
                  </div>
                  </Link>

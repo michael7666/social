@@ -12,8 +12,6 @@ module.exports.Register = async (req, res) => {
             email: req.body.email,
             password: hashedPassword ,
         });
-
-
        //save user and return response
          const user = await newUser.save();
          res.status(200).json(user);

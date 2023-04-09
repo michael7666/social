@@ -16,7 +16,7 @@ const PostSchame = new mongoose.Schema({
      type: Array,
      default: []
    },
-   files: {
+   img: {
        type: String,
        require: true
        

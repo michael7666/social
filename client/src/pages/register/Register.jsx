@@ -38,9 +38,9 @@ import {Link} from "react-router-dom"
         <RegisterStyled>
             <div className="loginWrapper">
                 <div className="loginLeft">
-                    <h3 className="loginLog">Social Media</h3>
+                    <h3 className="loginLog">Blog Post</h3>
                     <span className="loginDesc">
-                        Connect with Friends and the world around you on Social Media.
+                       Login to create the best blog post and also share with your friend
                     </span>
                 </div>
                 <div className="loginRight">
@@ -53,7 +53,6 @@ import {Link} from "react-router-dom"
                         <Link to="/login" className="loginRegisterButton"> 
                         Login into Your Account
                         </Link>
-                        {/* <button className="loginRegisterButton">Login into Your Account</button> */}
                     </form>
                 </div>
             </div>

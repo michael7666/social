@@ -48,7 +48,7 @@ useEffect(() =>{
                 <div className="postTop">
                     <div className="postLeft">
                         <Link to={`profile/${user.username}`} style={{textDecoration: "none"}}>
-                        <img src={user.profilePicture ? PF+user.profilePicture : PF+"/person/noAverta.png" }
+                        <img src={user.profilePicture ? user.profilePicture : PF+"/person/noAverta.png" }
                          alt="" className="postProfile" />
                         <span className="postUserName">{user.username}</span>
                         <span className="postDate">{format(post.createdAt)}</span>
@@ -60,7 +60,7 @@ useEffect(() =>{
                 </div>
                 <div className="postCenter">
                   <span className="postText">{post?.desc}</span>
-                  <img src={PF+post?.img} alt="" className="postImge" />
+                  <img src={post?.img} alt="" className="postImge" />
 
                 </div>
                 <div className="postBottom">

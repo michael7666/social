@@ -6,7 +6,7 @@ import styled from 'styled-components';
     return (
         <CloseStyled>
              <li className="sidebarFriends">
-                <img src={PF+user.profile} alt="" className="sidebarFriendsImg" />
+                <img src={user.profile} alt="" className="sidebarFriendsImg" />
                 <span className="sidebarFriendsName">{user.username}</span>
              </li>
         </CloseStyled>
