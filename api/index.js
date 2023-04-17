@@ -15,7 +15,7 @@ const dotenv = require("dotenv");
 const usersRoute = require("./router/users");
 const authRoute = require("./router/auth")
 const postRoute = require("./router/posts");
-// const uploadRoute = require("./router/upload");
+const uploadRoute = require("./router/upload");
 
 
 
@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({limit: "100mb", extended: true, parameterLimit:10
 //     app.use(cors({origin: `${process.env.CLIENT_URL}`}));
 // }
 const corsOptions ={
-    origin: process.env.CLIENT_URL, 
+    origins: process.env.CLIENT_URL, 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
@@ -97,7 +97,7 @@ app.use(cors(corsOptions));
 app.use("/api/users", usersRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/post", postRoute);
-// app.use("/api/upload", uploadRoute);
+app.use("/api/upload", uploadRoute);
 
 const PORT = process.env.PORT || 8800;
 

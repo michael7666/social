@@ -15,7 +15,7 @@ import {Add} from "@material-ui/icons"
     useEffect(() => {
      const getFriends = async() => {
          try {
-             const friendList = await axios.get(`/friends/${user?._id}`);
+             const friendList = await axios.get(`/friends/${currentUser._id}`);
              setFriends(friendList.data);
          } catch (err) {
             console.log(err); 

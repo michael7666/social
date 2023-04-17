@@ -18,15 +18,18 @@ import {storage} from "../../firebase"
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const {user} = useContext(AuthContext);
     const desc = useRef();
-    const [files, setFile] = useState(null);
+    const [files, setFile] = useState({
+        img: ""
+    });
     const [progress, setProgress] = useState();
-    const [input, setInput] = useState({})
-    // const dispatch = useContext(UploadContext)
-    // const [errorMgs, setErrorMgs] = useState('');
-    // const history = useHistory()
+    const [inputs, setInput] = useState({
+        desc: "",
+        img: ""
+    })
+   
 
-
-    const upload = async (item)=>{
+    const submitHandler = async(e) =>{
+        e.preventDefault();
         if(!files) return;
 
         const storageRef = ref(storage, `/file/${files.name}`);
@@ -37,43 +40,30 @@ import {storage} from "../../firebase"
             setProgress(progress);
         },
         (err)=>{console.log(err)}, ()=>{
-            getDownloadURL(uploadTask.snapshot.ref).then(url=>{
+        const imageLink =  getDownloadURL(uploadTask.snapshot.ref).then(url=>{
                 console.log(url);
-                setFile({...input, desc: desc, userId: user._id,  url});
-                // const res =  axios.post("/upload/add", url);
-                // return res.data;
-
+                setFile({...inputs, desc: desc, userId: user._id, img:url});
+                //console.log(imageUrl)
+                const images = {
+                    img: url,
+                    userId: user?._id,
+                    desc: desc.current.value,
+                }
+                const res =  axios.post("/post/add", images).then(res=>{
+                    setFile(res.data)
+                 
+                });
             })
-        }
-        )
-        
-    }
-
-    const submitHandler = async(e) =>{
-        e.preventDefault();
-        const newPost = {
-            userId: user?._id,
-            desc: desc.current.value, 
-        }
-        upload();
-        try{
-        const res =  await axios.post("/post/add", newPost);
-         return res.data;
-      
-        }catch(err){
-          console.log(err);
-        }
+            window.location.reload(false)
+        })
         setInput('');
     }
-
-    // const reloadPage = ()=>{
-    //     window.location.reload();
-    // }
+   
     return (
         <SharedContainer>
            <div className="shareWrapper">
                <div className="shareTop">
-                   <img src={user.profilePicture ? user.profilePicture : PF+"/person/noAverta.png" }
+                   <img src={user.profilePicture ? PF+user.profilePicture : PF+"/person/noAverta.png" }
                     alt="" className="shareImg" />
                    <input placeholder={ "what's in your mind " + user.username + "?"} 
                    className="shareInput" ref={desc} />
@@ -85,7 +75,7 @@ import {storage} from "../../firebase"
                        <label  className="shareOption">
                            <PermMedia htmlColor="tomato" className="shareIcon"/>
                            <span className="shareOptionText">Photo or Video</span>
-                           <input style={{display: "none"}} type="file" id="img" name="img"
+                           <input style={{display: "none"}} type="file" id="img" accept="image/*" name="img"
                              onChange={(e) =>setFile(e.target.files[0])} />
                        </label>
                        <p>{progress}</p>
