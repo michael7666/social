@@ -44,7 +44,7 @@ function Topbar() {
                </div>
             </div>
             <Link to={`/profile/${user.username}`}>
-            <img src={ user.profilePicture ? user.profilePicture : PF+"/person/noAverta.png"}
+            <img src={ user.profilePicture ? PF+user.profilePicture : PF+"/person/noAverta.png"}
              alt="" className="topbarImg" />
              </Link>
         </div>

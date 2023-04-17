@@ -9,7 +9,7 @@ import styled from 'styled-components';
              <li className="rightbarFriend">
                         
                 <div className="rightbarProfileImgContainer">
-                 <img src={user.profile} alt="" className="rightProfileImg" />
+                 <img src={PF+user.profile} alt="" className="rightProfileImg" />
                  <span className="rightbarOnline"></span>
                 </div>
                 <span className="rightbarUserName">{user.username}</span>

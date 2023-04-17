@@ -29,8 +29,8 @@ import {useParams} from "react-router";
             <div className="profileRightbar">
                 <div className="profileRightTop">
                     <div className="profileCover">
-                    <img src={user.profilePicture ? user.profilePicture :PF+"/person/noAverta.png" } alt="" className="profileCoverImg" />
-                    <img src={user.profilePicture ? user.profilePicture : PF+"/person/noAverta.png"} alt="" className="profileUserImg" />
+                    <img src={user.profilePicture ?PF+user.profilePicture :PF+"/person/noAverta.png" } alt="" className="profileCoverImg" />
+                    <img src={user.profilePicture ? PF+user.profilePicture : PF+"/person/noAverta.png"} alt="" className="profileUserImg" />
                     </div>
                     <div className="profileInfo">
                         <h1 className="profileInfoName">{user.username}</h1>
