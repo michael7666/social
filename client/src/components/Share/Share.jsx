@@ -54,7 +54,7 @@ import {storage} from "../../firebase"
                  
                 });
             })
-            window.location.reload(false)
+            window.location.reload()
         })
         setInput('');
     }
