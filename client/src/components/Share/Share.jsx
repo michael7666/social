@@ -49,7 +49,7 @@ import {storage} from "../../firebase"
                     userId: user?._id,
                     desc: desc.current.value,
                 }
-                const res =  axios.post("/post/add", images).then(res=>{
+                const res =  axios.post("https://spring-brook-9527.fly.dev/api/post/add", images).then(res=>{
                     setFile(res.data)
                  
                 });

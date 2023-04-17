@@ -24,7 +24,7 @@ import {Link} from "react-router-dom"
                password: password.current.value
             };
             try {
-                 await axios.post("/auth/register", user);
+                 await axios.post("https://spring-brook-9527.fly.dev/api/auth/register", user);
                 history.push("/login");
             } catch (error) {
                console.log(error); 

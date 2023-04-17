@@ -16,7 +16,7 @@ import {useParams} from "react-router";
 
     useEffect(() =>{
         const fetchPost = async () => {
-          const res = await axios.get(`/users?username=${username}`);
+          const res = await axios.get(`https://spring-brook-9527.fly.dev/api/users?username=${username}`);
           setUsers(res.data);
         }
         fetchPost();

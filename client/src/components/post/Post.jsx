@@ -25,7 +25,7 @@ useEffect(() =>{
 
   useEffect(() =>{
     const fetchPost = async () => {
-      const res = await axios.get(`/users?userId=${post.userId}`);
+      const res = await axios.get(`https://spring-brook-9527.fly.dev/api/users?userId=${post.userId}`);
       setUsers(res.data);
     }
     fetchPost();
@@ -34,7 +34,7 @@ useEffect(() =>{
 
    const likeHandler = async () => {
     try {
-      await axios.put("/post/"+ post._id +"/like", {userId: currentUser._id}) 
+      await axios.put("https://spring-brook-9527.fly.dev/api/post/"+ post._id +"/like", {userId: currentUser._id}) 
     } catch (error) {
         
     }

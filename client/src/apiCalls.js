@@ -10,7 +10,7 @@ export const LoginCall = async (userCre, dispatch) =>{
 
     
     try {
-        const res = await axios.post("/auth/login", userCre);
+        const res = await axios.post("https://spring-brook-9527.fly.dev/api/auth/login", userCre);
         dispatch({type: "LOGIN_SUCCESS", payload: res.data});
     } catch (err) {
         
@@ -21,7 +21,7 @@ export const LoginCall = async (userCre, dispatch) =>{
 export const UploadCall = async(file, dispatch)=>{
   dispatch(UploadStart());
    try {
-      const res = await axios.post("/post/add", file) 
+      const res = await axios.post("https://spring-brook-9527.fly.dev/api/post/add", file) 
       dispatch(UploadSuccess(res.data));
    } catch (error) {
     dispatch(UploadFailure(error));
